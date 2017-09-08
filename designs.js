@@ -1,48 +1,50 @@
-// Select color input
-let color = document.getElementById("colorPicker").value;
+$(document).ready(function () {
+    // Select color input
+    let color = $("#colorPicker").val();
 
-// Select size input
-let width = document.getElementById("input_width").value;
-let height = document.getElementById("input_height").value;
+    // Select size input
+    let width = $("#input_width").val();
+    let height = $("#input_height").val();
 
-// When size is submitted by the user, call makeGrid()
+    // When size is submitted by the user, call makeGrid()
 
-function createGrid() {
-    width = document.getElementById("input_width").value;
-    height = document.getElementById("input_height").value;
-    makeGrid();
+    $("#sizePicker").submit(function(event){
+        width = $("#input_width").val();
+        height = $("#input_height").val();
+        makeGrid();
 
-    return false;
-}
+        return false;
+    });
 
-function setColor() {
-    color = document.getElementById("colorPicker").value;
-}
+    $("#colorPicker").on("change",function () {
+        color = $("#colorPicker").val();
+    });
 
-function makeGrid() {
-    let table = document.getElementById("pixel_canvas");
-    while (table.hasChildNodes()) {
-        table.removeChild(table.firstChild);
-    }
-
-    for (let i = 0; i < height; i++) {
-        let tr = document.createElement('tr');
-        for (let j = 0; j < width; j++) {
-            let td = document.createElement('td');
-
-            td.onclick = (function (r, c) {
-                return function () {
-                    if (td.bgColor == color) {
-                        td.bgColor = "#ffffff";
-                    }
-                    else {
-                        td.bgColor = color;
-                    }
-                };
-            }(i, j));
-
-            tr.appendChild(td);
+    function makeGrid() {
+        let table = $("#pixel_canvas")[0];
+        while (table.hasChildNodes()) {
+            table.removeChild(table.firstChild);
         }
-        table.appendChild(tr);
+
+        for (let i = 0; i < height; i++) {
+            let tr = document.createElement('tr');
+            for (let j = 0; j < width; j++) {
+                let td = document.createElement('td');
+
+                td.onclick = (function (r, c) {
+                    return function () {
+                        if (td.bgColor == color) {
+                            td.bgColor = "#ffffff";
+                        }
+                        else {
+                            td.bgColor = color;
+                        }
+                    };
+                }(i, j));
+
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        }
     }
-}
+});
